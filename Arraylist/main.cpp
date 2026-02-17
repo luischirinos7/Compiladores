@@ -1,44 +1,32 @@
 #include <iostream>
+#include <string>
 #include "ArrayList.h"
+#include "Lexer.h" 
 
 using namespace std;
 
 int main() {
-   
-    cout << "enteros" << endl;
+    string codigoPascal = "resultado := 45 + variable * (10 - 2);";
+    cout << "== INICIANDO COMPILADOR ==" << endl;
+    cout << "Codigo fuente: " << codigoPascal << "\n" << endl;
     
-    Arraylist<int> numeros;
+    Lexer lexer(codigoPascal);
+    Arraylist<Token> listaDeTokens; 
     
-    // Agregar elementos
-    numeros.add(10);
-    numeros.add(20);
-    numeros.add(30);
-    numeros.add(40);
-    numeros.add(50);
-    
-    // Mostrar
-    cout << "ArrayList: " << numeros.size() << endl;
-    
-    // Acceder a elementos
-    cout << "Primer elemento: " << numeros.first() << endl;
-    cout << "ultimo elemento: " << numeros.last() << endl;
-    cout << "elemento en indice 2: " << numeros.get(2) << endl;
-    
-    // Navegación con next y prior
-    cout << "\nNavegacion:" << endl;
-    numeros.setCurrentIndex(0); // Empezar en el indice 0  
-    cout << "Actual: " << numeros.get(numeros.getCurrentIndex()) << endl;
-    cout << "Siguiente: " << numeros.next() << endl;
-    cout << "Siguiente: " << numeros.next() << endl;
-    cout << "Anterior: " << numeros.prior() << endl;
-
-    // Eliminar elemento
-    numeros.remove(2); // Elimina el elemento en indice 2 
-    cout << "\nDespues de eliminar indice 2:" << endl;
-    for (int i = 0; i < numeros.size(); i++) {
-        cout << "Elemento " << i << ": " << numeros.get(i) << endl;
+    Token currentToken = lexer.getNextToken();
+    while (currentToken.type != TOKEN_EOF) {
+        listaDeTokens.add(currentToken); 
+        currentToken = lexer.getNextToken();
     }
-    
-    
+    listaDeTokens.add(currentToken); 
+
+    cout << "== TOKENS EXTRAIDOS Y GUARDADOS EN ARRAYLIST ==" << endl;
+    cout << "Total de tokens guardados: " << listaDeTokens.size() << "\n" << endl;
+
+    for (int i = 0; i < listaDeTokens.size(); i++) {
+        Token t = listaDeTokens.get(i);
+        cout << "Token[" << i << "] -> Tipo: [" << getTypeName(t.type) << "] \t Valor: '" << t.value << "'" << endl;
+    }
+
     return 0;
 }
