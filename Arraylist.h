@@ -55,7 +55,7 @@ class Arraylist{
         array[length] = element;
         length++; // 
         
-        cout << "Elemento agregado. " << length << endl;
+
     }
 
     //metodo get
