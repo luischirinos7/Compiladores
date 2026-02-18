@@ -1,0 +1,5 @@
+cd Expresiones
+g++ main.cpp expression_parser.cpp -o calculadora
+.\calculadora.exe
+
+pasos para compilar
