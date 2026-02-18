@@ -5,56 +5,58 @@
 
 using namespace std;
 
-// 1. Tipos de Tokens
 enum TokenType {
-    TOKEN_ID,
-    TOKEN_NUMERO,
-    TOKEN_ASIGNACION,
-    TOKEN_SUMA,
-    TOKEN_RESTA,
-    TOKEN_MULT,
-    TOKEN_DIV,
-    TOKEN_PAREN_IZQ,
-    TOKEN_PAREN_DER,
-    TOKEN_PUNTO_COMA,
+    TOKEN_KEYWORD,    
+    TOKEN_IDENTIFIER, 
+    TOKEN_DELIMITER,  
+    TOKEN_OPERATOR,   
+    TOKEN_STRING,     
+    TOKEN_FUNCTION,   
+    TOKEN_NUMERO,     
     TOKEN_EOF,
     TOKEN_ERROR
 };
 
-// 2. Estructura del Token
 struct Token {
     TokenType type;
     string value;
+    int line;
+    int col;
 
     Token() {
         type = TOKEN_ERROR;
         value = "";
+        line = 0;
+        col = 0;
     }
 
-    Token(TokenType t, string v) {
+    Token(TokenType t, string v, int l, int c) {
         type = t;
         value = v;
+        line = l;
+        col = c;
     }
 };
 
-// Funcion para imprimir bonito (Declaracion)
 string getTypeName(TokenType type);
 
-// 3. Declaracion de la clase Lexer
 class Lexer {
 private:
     string text;
     int pos;
     char currentChar;
+    int line; 
+    int col;  
 
     void advance();
     void skipWhitespace();
     Token number();
     Token id();
+    Token stringLiteral(); 
 
 public:
     Lexer(string text);
     Token getNextToken();
 };
 
-#endif // LEXER_H
+#endif 
